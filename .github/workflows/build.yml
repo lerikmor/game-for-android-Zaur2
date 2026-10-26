@@ -11,11 +11,11 @@ jobs:
       - name: Build with Buildozer Docker
         run: |
           docker run --rm \
-            --entrypoint buildozer \
+            --entrypoint /bin/bash \
             -v "${{ github.workspace }}:/home/user/hostcwd" \
             -v "$HOME/.buildozer:/home/user/.buildozer" \
             kivy/buildozer:latest \
-            android debug
+            -c "yes | buildozer android debug"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
