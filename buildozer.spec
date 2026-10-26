@@ -1,24 +1,25 @@
-name: Build APK
-on: [push]
+[app]
+title = ThreeInRow
+package.name = threeinrow
+package.domain = org.zaur
 
-jobs:
-  build-android:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+source.dir = .
+source.include_exts = py,png,jpg,kv,atlas
 
-      - name: Build with Buildozer Docker
-        run: |
-          docker run --rm \
-            --entrypoint /bin/bash \
-            -v "${{ github.workspace }}:/home/user/hostcwd" \
-            -v "$HOME/.buildozer:/home/user/.buildozer" \
-            kivy/buildozer:latest \
-            -c "yes | buildozer android debug"
+version = 0.1
+requirements = python3==3.11.9,kivy==2.3.0
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: package
-          path: bin/*.apk
+orientation = portrait
+fullscreen = 1
+
+# --- Настройки Android ---
+android.api = 33
+android.minapi = 21
+android.ndk = 25b
+android.ndk_api = 21
+android.archs = arm64-v8a, armeabi-v7a
+android.allow_backup = True
+
+# --- Настройки сборки ---
+android.accept_sdk_license = True
+android.debug_artifact = apk
